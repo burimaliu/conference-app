@@ -1,16 +1,18 @@
-# Conference Organization App API Project
+# Conference App (API project)
 
 ### About
 
-This project is a cloud-based API server to support a web-based and native Android application for conference organization.  The API supports the following functionality:
+This project is a cloud-based API server to support a web-based and native Android application for conference organization.
 
-- User authentication (via Google accounts)
-- User profiles
-- Conference information
-- Session information
+This is a cloud-based server side API to fullfil a web-based and native mobile applications conference needs. The API's supports the following:
+
+- Authentication (Google accounts)
+- Profiles
+- Conference's
+- Session
 - User wishlists
 
-The API is hosted on Google App Engine as application ID [full-stack-conference](https://full-stack-conference.appspot.com), and can be accessed via the [API explorer](https://apis-explorer.appspot.com/apis-explorer/?base=https://full-stack-conference.appspot.com/_ah/api#p/).
+Project is hosted on Google App Engine as application ID [conference-app-1040](https://conference-app-1040.appspot.com), and can be accessed via the [API explorer](https://apis-explorer.appspot.com/apis-explorer/?base=https://conference-app-1040.appspot.com/_ah/api#p/).
 
 ### Design and Improvement Tasks
 
