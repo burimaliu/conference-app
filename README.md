@@ -2,33 +2,33 @@
 
 ### About
 
-This project is a cloud-based API server to support a web-based and native Android application for conference organization.
+This project is a cloud-based API server to support a web-based and native mobile applications for conference organization.
 
 This is a cloud-based server side API to fullfil a web-based and native mobile applications conference needs. The API's supports the following:
 
 - Authentication (Google accounts)
-- Profiles
-- Conference's
 - Session
-- User wishlists
+- Profiles
+- User wishlist's
+- Conference's
 
 Project is hosted on Google App Engine as application ID [conference-app-1040](https://conference-app-1040.appspot.com), and can be accessed via the [API explorer](https://apis-explorer.appspot.com/apis-explorer/?base=https://conference-app-1040.appspot.com/_ah/api#p/).
 
-### Design and Improvement Tasks
+### Improvements
 
-#### Task 1: Add Sessions to a Conference
+####  1: Add Sessions to a Conference
 
-I added the following endpoint methods:
+The following methods were added:
 
-- `createSession`: given a conference, creates a session.
-- `getConferenceSessions`: given a conference, returns all sessions.
-- `getConferenceSessionsByType`: given a conference and session type, returns all applicable sessions.
-- `getSessionsBySpeaker`: given a speaker, returns all sessions across all conferences.
+- `createSession`: for a given conference, creates a session.
+- `getConferenceSessions`: for a given conference, returns all sessions.
+- `getConferenceSessionsByType`: for a given conference with session type, returns all applicable sessions.
+- `getSessionsBySpeaker`: for a given speaker, returns all sessions from all conferences.
 
-For the `Speaker` model design, I implemented the following datastore properties:
+For the `Speaker` model, The following datastore properties were implemented:
 
 | Property        | Type             |
-|-----------------|------------------|
+|-----------------:|------------------:|
 | name            | string, required |
 | highlights      | string           |
 | speaker         | string, required |
