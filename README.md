@@ -30,11 +30,11 @@ For the `Session` model, The following datastore properties were implemented:
 
 | Property        | Type                     | Explanation                                                                    |
 |-----------------|:-------------------------|:-------------------------------------------------------------------------------|
-| name            | StringProperty|required  | Name is a short text that stores user's name and it should be a string         |
+| name            | StringProperty(required)  | Name is a short text that stores user's name and it should be a string         |
 | highlights      | StringProperty           | Highlights have a mixed values, to avoid errors decited to set it as string    |
-| speaker         | StringProperty|required  | Represents Speaker's name and since it does only that it should be a string    |
+| speaker         | StringProperty(required)  | Represents Speaker's name and since it does only that it should be a string    |
 | duration        | IntegerProperty          | Duration contains number thus it should be an Integer eg: "15" minutes |
-| typeOfSession   | StringProperty|repeated  | Session type usually has multiple choices, however in this case we are storing only one type and string is fine |
+| typeOfSession   | StringProperty(repeated)  | Session type usually has multiple choices, however in this case we are storing only one type and string is fine |
 | date            | DateProperty             | Date stores conference date, DateType because its only "Date" value and can be used to filter data based on its value |
 | startTime       | TimeProperty             | Start time would show only time of a conference session, set to TimeProperty since it stores only Time values |
 | organizerUserId | StringProperty           | String was chosen to store ID of conference organizatior, Integer could also be possible |
