@@ -27,7 +27,7 @@ The following methods were added:
 
 For the `Session` model, The following datastore properties were implemented:
 
-<<<<<<< HEAD
+
 | Property        | Type                     | Explanation                                                                    |
 |-----------------|:-------------------------|:-------------------------------------------------------------------------------|
 | name            | StringProperty|required  | Name is a short text that stores user's name and it should be a string         |
@@ -38,18 +38,6 @@ For the `Session` model, The following datastore properties were implemented:
 | date            | DateProperty             | Date stores conference date, DateType because its only "Date" value and can be used to filter data based on its value |
 | startTime       | TimeProperty             | Start time would show only time of a conference session, set to TimeProperty since it stores only Time values |
 | organizerUserId | StringProperty           | String was chosen to store ID of conference organizatior, Integer could also be possible |
-=======
-| Property        | Type             |
-|-----------------:|------------------:|
-| name            | string(required)  |
-| highlights      | string           |
-| speaker         | string(required)  |
-| duration        | integer          |
-| typeOfSession   | string(repeated)  |
-| date            | date             |
-| startTime       | time             |
-| organizerUserId | string           |
->>>>>>> origin/master
 
 To represent the one `conference` to many `sessions` relationship, A parent-child was implemented which allows for more consistent querying as sessions can be queried by their conference ancestor. Sessions were `Memcached` also.
 
