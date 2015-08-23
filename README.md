@@ -66,11 +66,8 @@ To filter non-workshop before 7pm sessions using Datastore queries ran on its li
 
 It was necessary to modify the `createSession` endpoint to cross-check if the speaker was in any other of the conference's sessions. If true, the speaker name and relevant session names were added to the memcache under the `featured_speaker` key.
 
-<<<<<<< HEAD
+
 The following endpoint method `getFeaturedSpeaker` was added which would check the memcache for the featured speaker.
-=======
-The following endpoint method: `getFeaturedSpeaker` was added which would check the memcache for the featured speaker.
->>>>>>> origin/master
 
 ### Setup Instructions
 
