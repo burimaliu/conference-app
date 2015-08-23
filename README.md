@@ -31,7 +31,7 @@ For the `Session` model, The following datastore properties were implemented:
 | Property        | Type                     | Explanation                                                                    |
 |-----------------|:-------------------------|:-------------------------------------------------------------------------------|
 | name            | StringProperty(required)  | Name is a short text that stores user's name and it should be a string         |
-| highlights      | StringProperty           | Highlights have a mixed values, to avoid errors decited to set it as string    |
+| highlights      | StringProperty           | Highlights have a mixed values, to avoid errors decided to set it as string    |
 | speaker         | StringProperty(required)  | Represents Speaker's name and since it does only that it should be a string    |
 | duration        | IntegerProperty          | Duration contains number thus it should be an Integer eg: "15" minutes |
 | typeOfSession   | StringProperty(repeated)  | Session type usually has multiple choices, however in this case we are storing only one type and string is fine |
