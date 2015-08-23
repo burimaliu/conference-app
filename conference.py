@@ -507,12 +507,7 @@ class ConferenceApi(remote.Service):
         sessions = Session.query(Session.speaker == data['speaker'],
             ancestor=p_key)
         if len(list(sessions)) > 1:
-            cache_data = {}
-            cache_data['speaker'] = data['speaker']
-            # cache_data['sessions'] = sessions # TODO: get pickler to load full properties...
-            cache_data['sessionNames'] = [session.name for session in sessions]
-            if not memcache.set('featured_speaker', cache_data):
-                logging.error('Memcache set failed.')
+            taskqueue.add(params={'speaker': data['speaker']}, url='/tasks/set_featured_speaker')
 
         return request
 

@@ -25,50 +25,53 @@ The following methods were added:
 - `getConferenceSessionsByType`: for a given conference with session type, returns all applicable sessions.
 - `getSessionsBySpeaker`: for a given speaker, returns all sessions from all conferences.
 
-For the `Speaker` model, The following datastore properties were implemented:
+For the `Session` model, The following datastore properties were implemented:
 
-| Property        | Type             |
-|-----------------:|------------------:|
-| name            | string, required |
-| highlights      | string           |
-| speaker         | string, required |
-| duration        | integer          |
-| typeOfSession   | string, repeated |
-| date            | date             |
-| startTime       | time             |
-| organizerUserId | string           |
+| Property        | Type                     | Explanation                                                                    |
+|-----------------|:-------------------------|:-------------------------------------------------------------------------------|
+| name            | StringProperty|required  | Name is a short text that stores user's name and it should be a string         |
+| highlights      | StringProperty           | Highlights have a mixed values, to avoid errors decited to set it as string    |
+| speaker         | StringProperty|required  | Represents Speaker's name and since it does only that it should be a string    |
+| duration        | IntegerProperty          | Duration contains number thus it should be an Integer eg: "15" minutes |
+| typeOfSession   | StringProperty|repeated  | Session type usually has multiple choices, however in this case we are storing only one type and string is fine |
+| date            | DateProperty             | Date stores conference date, DateType because its only "Date" value and can be used to filter data based on its value |
+| startTime       | TimeProperty             | Start time would show only time of a conference session, set to TimeProperty since it stores only Time values |
+| organizerUserId | StringProperty           | String was chosen to store ID of conference organizatior, Integer could also be possible |
 
-In order to represent the one `conference` to many `sessions` relationship, I opted to use a parent-child implementation.  This allows for strong consistent querying, as sessions can be queried by their conference ancestor.  While this remits the possibility to move sessions between conferences, I reasoned that the trade-off in speed and consistency was worthwhile.  People would want to know (i.e. query) about sessions quite often.  Furthermore, sessions were `Memcached` to reflect that load.
+To represent the one `conference` to many `sessions` relationship, A parent-child was implemented which allows for more consistent querying as sessions can be queried by their conference ancestor. Sessions were `Memcached` also.
 
-In representing speakers, I contemplated linking the speaker field to user profiles.  However, I decided against this, as it would force a speaker to have an account, to be registered.  The obvious drawback here, though, is that querying by speaker could produce undesirable results with inconsistent entry, e.g. "John Bravo, Johnny Bravo, J. Bravo" would all be listed as separate speakers.
+To represent speakers it was possible to link `speaker` field with user profile, however that would require a speaker to have an account, having just its name was more reasonable even it could produce undesirable results.
 
-Session types (e.g. talk, lecture) were implemented more in a "tag" representation, with sessions able to receive multiple different types.
+Session types (e.g. speech, lecture) were implemented more as "tags" representation, so sessions will be able to receive multiple types.
 
-#### Task 2: Add Sessions to User Wishlist
+#### 2: Add Sessions to User Wishlist
 
-I modified the `Profile` model to accommodate a 'wishlist' stored as a repeated key property field, named `sessionsToAttend`.  In order to interact with this model in the API, I also had modify some of the previous methods in Task 1 to return a unique web-safe key for sessions.  I added two endpoint methods to the API:
+The `Profile` model was modified to accommodate 'wishlist' stored as a repeated key property field, named `sessionsToAttend`.  The following endpoint methods were added to API:
 
 - `addSessionToWishlist`: given a session websafe key, saves a session to a user's wishlist.
 - `getSessionsInWishlist`: return a user's wishlist.
 
-#### Task 3: Indexes and Queries
+#### 3: Indexes and Queries
 
-I added two endpoint methods for additional queries that I thought would be useful for this application:
+The follwing endpoint methods that would be useful to this application:
 
--`getConferenceSessionFeed`: returns a conference's sorted feed sessions occurring same day or later. This would be useful for users to see a chronologically sorted, upcoming "feed," similar to something like Meetup's feed.
--`getTBDSessions`: returns sessions missing time/date information. Many times, conferences will know the speakers who will attend, but don't necessarily know the time and date that they will speak. As an administrative task, this might be a useful query to pair with some background methods to automatically notify the creator to fill in the necessary data as the conference or session dates approach.
+-`getConferenceSessionFeed`: returns a conference's sorted feed sessions occurring same day or later.
 
-For the specialized query, finding non-workshop sessions before 7pm, I ran into the limitations with using ndb/Datastore queries.  Queries are only allowed to have one inequality filter, and it would cause a `BadRequestError` to filter on both `startDate` and `typeOfSession`.  As a result, a workaround I implemented was to first query sessions before 7pm with `ndb`, and then manually filter that list with native Python to remove sessions with a 'workshop' type.  This could have been done in reverse, and the query which would filter the most entities should be done with `ndb`.
+-`getTBDSessions`: returns sessions with missing time/date. Useful to let conference creators know that certain sessions have lack of information.
 
-#### Task 4: Add Featured Speaker
+To filter non-workshop before 7pm sessions using Datastore queries ran on its limitations since it allows only one inequality filter, as a result an alternative was to first filter all sessions before 7pm using `ndb` of datastore and then iterating through the list and picking up those with `workshop`.
 
-I modified the `createSession` endpoint to cross-check if the speaker appeared in any other of the conference's sessions.  If so, the speaker name and relevant session names were added to the memcache under the `featured_speaker` key.  I added a final endpoint, `getFeaturedSpeaker`, which would check the memcache for the featured speaker.  If empty, it would simply pull the next upcoming speaker.
+#### 4: Add Featured Speaker
+
+It was necessary to modify the `createSession` endpoint to cross-check if the speaker was in any other of the conference's sessions. If true, the speaker name and relevant session names were added to the memcache under the `featured_speaker` key.
+
+The following endpoint method `getFeaturedSpeaker` was added which would check the memcache for the featured speaker.
 
 ### Setup Instructions
 
 To deploy this API server locally, ensure that you have downloaded and installed the [Google App Engine SDK for Python](https://cloud.google.com/appengine/downloads). Once installed, conduct the following steps:
 
-1. Clone this repository. Only the `p4` directory is essential to this project.
+1. Clone `conference-app` repository.
 2. (Optional) Update the value of `application` in `app.yaml` to the app ID you have registered in the App Engine admin console and would like to use to host your instance of this sample.
 3. (Optional) Update the values at the top of `settings.py` to reflect the respective client IDs you have registered in the [Developer Console][4].
 4. (Optional) Update the value of CLIENT_ID in `static/js/app.js` to the Web client ID
